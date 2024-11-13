@@ -28,7 +28,8 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    bat "${VIRTUAL_ENV}\\Scripts\\activate && pytest --junitxml=report.xml"
+                    // Updated to specify the tests directory
+                    bat "${VIRTUAL_ENV}\\Scripts\\activate && pytest tests/ --junitxml=report.xml"
                 }
             }
         }
