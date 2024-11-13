@@ -34,10 +34,27 @@ pipeline {
             }
         }
 
+        stage('Coverage') {
+            steps {
+                script {
+                    bat "${VIRTUAL_ENV}\\Scripts\\activate && set PYTHONPATH=${env.WORKSPACE} && coverage run -m pytest && coverage report && coverage xml"
+                }
+            }
+        }
+
+        stage('Security Scan') {
+            steps {
+                script {
+                    bat "${VIRTUAL_ENV}\\Scripts\\activate && bandit -r app.py -f xml -o bandit_report.xml"
+                }
+            }
+        }
+
         stage('Deploy') {
             steps {
                 script {
                     echo "Deploying application..."
+                    bat "${VIRTUAL_ENV}\\Scripts\\activate && echo 'Deployment logic goes here'"
                 }
             }
         }
