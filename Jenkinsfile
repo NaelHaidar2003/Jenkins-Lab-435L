@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         VIRTUAL_ENV = 'venv'
+        PYTHONPATH = "${env.WORKSPACE}"
     }
 
     stages {
@@ -28,8 +29,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    // Updated to specify the tests directory
-                    bat "${VIRTUAL_ENV}\\Scripts\\activate && pytest tests/ --junitxml=report.xml"
+                    bat "${VIRTUAL_ENV}\\Scripts\\activate && set PYTHONPATH=${env.WORKSPACE} && pytest tests/ --junitxml=report.xml"
                 }
             }
         }
